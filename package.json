@@ -1,0 +1,61 @@
+{
+  "name": "NwCollege",
+  "version": "1.0.0",
+  "description": "A simple CAP project.",
+  "repository": "<Add your repository here>",
+  "license": "UNLICENSED",
+  "private": true,
+  "dependencies": {
+    "@cap-js/hana": "^1",
+    "@sap-cloud-sdk/connectivity": "^3.18.0",
+    "@sap-cloud-sdk/http-client": "^3.18.0",
+    "@sap/cds": "^7.9.4",
+    "@sap/cds-hana": "^2",
+    "@sap/xsenv": "^5.2.0",
+    "@sap/xssec": "^4.2.1",
+    "axios": "^1.7.3",
+    "cors": "^2.8.5",
+    "express": "^4.19.2",
+    "passport": "^0.7.0"
+  },
+  "devDependencies": {
+    "@cap-js/sqlite": "^1",
+    "@sap/cds-dk": "^7",
+    "@sap/eslint-plugin-cds": "^3",
+    "@sap/ux-specification": "^1.120.15",
+    "eslint": "^9",
+    "rimraf": "^5.0.5"
+  },
+  "scripts": {
+    "start": "cds-serve",
+    "watch-nwcollege": "cds watch --open nwcollege/webapp/index.html?sap-ui-xx-viewCache=false",
+    "undeploy": "cf undeploy NwCollege --delete-services --delete-service-keys --delete-service-brokers",
+    "build": "rimraf resources mta_archives && mbt build --mtar archive",
+    "deploy": "cf deploy mta_archives/archive.mtar --retries 1",
+    "watch-nwteacher": "cds watch --open nwteacher/webapp/index.html?sap-ui-xx-viewCache=false"
+  },
+  "cds": {
+    "requires": {
+      "destinations": true,
+      "spa_api": {
+        "kind": "odata-v2",
+        "credentials": {
+          "destination": "sap_destination1"
+        },
+        "destinationOptions": {
+          "selectionStrategy": "alwaysProvider",
+          "jwt": null
+        }
+      },
+      "db": "hana",
+      "auth": "dummy"
+    },
+    "fiori": {
+      "bypass_draft": true
+    }
+  },
+  "sapux": [
+    "app/nwcollege",
+    "app/nwteacher"
+  ]
+}

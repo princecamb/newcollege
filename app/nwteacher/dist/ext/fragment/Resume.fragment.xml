@@ -1,0 +1,70 @@
+<core:FragmentDefinition xmlns:core="sap.ui.core" xmlns="sap.m" xmlns:macros="sap.fe.macros"  xmlns:upload="sap.m.upload" >
+  <VBox id="_IDGenVBox1" core:require="{ handler: 'nwteacher/ext/fragment/Resume'}">
+        <!-- <Button id="_IDGenButton1" text="PdfUpload" press="handler.onPress" /> -->
+           <App id="app">
+            <pages>
+                <Page id="page" showHeader="false">
+                    <upload:UploadSet
+                    id="uploadSet"
+                    instantUpload="false"
+                    uploadEnabled="true"
+                    afterItemAdded="handler.onAfterItemAdded"
+                     afterItemEdited="handler.onAfterItemEdited"
+                    uploadCompleted="handler.onUploadCompleted"    
+                     beforeItemRemoved="handler.onAfterItemRemoved"          
+                    items="{
+                                path: 'teacherToFiles',
+                                parameters: {
+                                    $orderby: 'createdAt desc'
+                                },
+                                templateShareable: false}"
+                                mode ="MultiSelect" >
+                        <upload:toolbar>
+                            <OverflowToolbar id="_IDGenOverflowToolbar1">
+                                <ToolbarSpacer id="_IDGenToolbarSpacer1"/>
+                                <!-- <Button
+                                    id="uploadSelectedButton"
+                                    text="Upload selected"
+                                    press="handler.onUploadSelectedButton"/> -->
+                                <!-- <Button
+                                    id="downloadSelectedButton"
+                                    text="Download selected"
+                                    press="handler.onDownloadSelectedButton"/> -->
+                                   
+                                <!-- <Button
+                                    id="versionButton"
+                                    enabled="false"
+                                    text="Upload a new version"
+                                    press="handler.onVersionUpload"/> -->
+                                <upload:UploadSetToolbarPlaceholder id="_IDGenUploadSetToolbarPlaceholder1" />
+                            </OverflowToolbar>
+                        </upload:toolbar>
+                        <upload:items>
+                            <upload:UploadSetItem id="_IDGenUploadSetItem1"
+                                fileName="{fileName}"
+                                mediaType="{mediaType}"
+                                url="{url}"
+                               
+                                openPressed="handler.onOpenPressed">
+                                <upload:attributes>
+                                    <ObjectAttribute id="_IDGenObjectAttribute1"
+                                        title="Uploaded By"
+                                        text="{createdBy}"
+                                        active="true"/>
+                                          <ObjectAttribute id="_IDGenObjectAttribute2"
+                                        title="Uploaded on"
+                                        text="{createdAt}"
+                                        active="true"/>
+                                    <ObjectAttribute id="_IDGenObjectAttribute3"
+                                        title="File Size"
+                                        text="{size}"
+                                        active="true"/>
+                                </upload:attributes>
+                            </upload:UploadSetItem>
+                        </upload:items>
+                    </upload:UploadSet>
+                </Page>
+            </pages>
+        </App>
+    </VBox>
+</core:FragmentDefinition>

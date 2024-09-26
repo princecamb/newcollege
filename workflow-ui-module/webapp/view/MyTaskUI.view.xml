@@ -1,0 +1,11 @@
+<mvc:View controllerName="nwcollegetask.workflowuimodule.controller.MyTaskUI" xmlns:mvc="sap.ui.core.mvc" displayBlock="true" xmlns="sap.m">
+    <App id="app">
+        <pages>
+            <Page id="_IDGenPage1" showHeader="false" showFooter="false">
+                <content>
+                    <Input value="{context>/text}" id="__input0"/>
+                </content>
+            </Page>
+        </pages>
+    </App>
+</mvc:View>

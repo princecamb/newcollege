@@ -1,0 +1,295 @@
+{
+    "_version": "1.59.0",
+    "sap.app": {
+        "id": "nwcollege",
+        "type": "application",
+        "i18n": "i18n/i18n.properties",
+        "applicationVersion": {
+            "version": "0.0.1"
+        },
+        "title": "College Of Engineering",
+        "description": "{{appDescription}}",
+        "resources": "resources.json",
+        "sourceTemplate": {
+            "id": "@sap/generator-fiori:lrop",
+            "version": "1.14.2",
+            "toolsId": "1dfcf110-f25f-4df3-9d62-5dc6a6cad1c1"
+        },
+        "dataSources": {
+            "mainService": {
+                "uri": "odata/v4/my/",
+                "type": "OData",
+                "settings": {
+                    "annotations": [],
+                    "odataVersion": "4.0"
+                }
+            }
+        },
+        "crossNavigation": {
+            "inbounds": {
+                "nwcollegea-display": {
+                    "semanticObject": "nwcollegea",
+                    "action": "display",
+                    "title": "{{flpTitle}}",
+                    "signature": {
+                        "parameters": {},
+                        "additionalParameters": "allowed"
+                    }
+                },
+                "nwcollegeapp-display": {
+                    "semanticObject": "nwcollegeapp",
+                    "action": "display",
+                    "title": "{{flpTitle}}",
+                    "subTitle": "{{flpSubtitle}}",
+                    "signature": {
+                        "parameters": {},
+                        "additionalParameters": "allowed"
+                    }
+                },
+                "nwcollegeapp1-display": {
+                    "semanticObject": "nwcollegeapp1",
+                    "action": "display",
+                    "title": "{{flpTitle}}",
+                    "subTitle": "{{flpSubtitle}}",
+                    "signature": {
+                        "parameters": {},
+                        "additionalParameters": "allowed"
+                    }
+                },
+                "nwcollgapp1-display": {
+                    "semanticObject": "nwcollgapp1",
+                    "action": "display",
+                    "title": "{{flpTitle}}",
+                    "subTitle": "{{flpSubtitle}}",
+                    "signature": {
+                        "parameters": {},
+                        "additionalParameters": "allowed"
+                    }
+                },
+                "newcollege1-display": {
+                    "semanticObject": "newcollege1",
+                    "action": "display",
+                    "title": "{{flpTitle}}",
+                    "subTitle": "{{flpSubtitle}}",
+                    "signature": {
+                        "parameters": {},
+                        "additionalParameters": "allowed"
+                    }
+                }
+            }
+        }
+    },
+    "sap.ui": {
+        "technology": "UI5",
+        "icons": {
+            "icon": "",
+            "favIcon": "",
+            "phone": "",
+            "phone@2": "",
+            "tablet": "",
+            "tablet@2": ""
+        },
+        "deviceTypes": {
+            "desktop": true,
+            "tablet": true,
+            "phone": true
+        }
+    },
+    "sap.ui5": {
+        "flexEnabled": true,
+        "dependencies": {
+            "minUI5Version": "1.126.2",
+            "libs": {
+                "sap.m": {},
+                "sap.ui.core": {},
+                "sap.ushell": {},
+                "sap.fe.templates": {}
+            }
+        },
+        "contentDensities": {
+            "compact": true,
+            "cozy": true
+        },
+        "models": {
+            "i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "settings": {
+                    "bundleName": "nwcollege.i18n.i18n"
+                }
+            },
+            "": {
+                "dataSource": "mainService",
+                "preload": true,
+                "settings": {
+                    "operationMode": "Server",
+                    "autoExpandSelect": true,
+                    "earlyRequests": true
+                }
+            },
+            "@i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            }
+        },
+        "resources": {
+            "css": []
+        },
+        "routing": {
+            "config": {},
+            "routes": [
+                {
+                    "pattern": ":?query:",
+                    "name": "DepartmentList",
+                    "target": "DepartmentList"
+                },
+                {
+                    "pattern": "Department({key}):?query:",
+                    "name": "DepartmentObjectPage",
+                    "target": "DepartmentObjectPage"
+                },
+                {
+                    "pattern": "Department({key})/deptToStudent({key2}):?query:",
+                    "name": "Department_deptToStudentObjectPage",
+                    "target": "Department_deptToStudentObjectPage"
+                },
+                {
+                    "pattern": "Department({key})/deptToTeacher({key2}):?query:",
+                    "name": "Department_deptToTeacherObjectPage",
+                    "target": "Department_deptToTeacherObjectPage"
+                }
+            ],
+            "targets": {
+                "DepartmentList": {
+                    "type": "Component",
+                    "id": "DepartmentList",
+                    "name": "sap.fe.templates.ListReport",
+                    "options": {
+                        "settings": {
+                            "contextPath": "/Department",
+                            "variantManagement": "None",
+                            "navigation": {
+                                "Department": {
+                                    "detail": {
+                                        "route": "DepartmentObjectPage"
+                                    }
+                                }
+                            },
+                            "controlConfiguration": {
+                                "@com.sap.vocabularies.UI.v1.LineItem": {
+                                    "tableSettings": {
+                                        "type": "ResponsiveTable"
+                                    }
+                                }
+                            },
+                            "initialLoad": "Enabled"
+                        }
+                    }
+                },
+                "DepartmentObjectPage": {
+                    "type": "Component",
+                    "id": "DepartmentObjectPage",
+                    "name": "sap.fe.templates.ObjectPage",
+                    "options": {
+                        "settings": {
+                            "editableHeaderContent": false,
+                            "contextPath": "/Department",
+                            "navigation": {
+                                "deptToStudent": {
+                                    "detail": {
+                                        "route": "Department_deptToStudentObjectPage"
+                                    }
+                                },
+                                "deptToTeacher": {
+                                    "detail": {
+                                        "route": "Department_deptToTeacherObjectPage"
+                                    }
+                                }
+                            },
+                            "variantManagement": "None",
+                            "content": {
+                                "footer": {
+                                    "actions": {
+                                        "obj1": {
+                                            "press": "nwcollege.ext.controller.Footer.footer_meth",
+                                            "visible": true,
+                                            "enabled": true,
+                                            "text": "COE | @COPYRIGHT | 2024 | CONTACT US"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "Department_deptToStudentObjectPage": {
+                    "type": "Component",
+                    "id": "Department_deptToStudentObjectPage",
+                    "name": "sap.fe.templates.ObjectPage",
+                    "options": {
+                        "settings": {
+                            "contextPath": "/Department/deptToStudent",
+                            "navigation": {},
+                            "variantManagement": "None",
+                            "content": {
+                                "footer": {
+                                    "actions": {
+                                        "obj2": {
+                                            "press": "nwcollege.ext.controller.Footer.footer_meth",
+                                            "visible": true,
+                                            "enabled": true,
+                                            "text": "COE | @COPYRIGHT | 2024 | CONTACT US"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "Department_deptToTeacherObjectPage": {
+                    "type": "Component",
+                    "id": "Department_deptToTeacherObjectPage",
+                    "name": "sap.fe.templates.ObjectPage",
+                    "options": {
+                        "settings": {
+                            "contextPath": "/Department/deptToTeacher",
+                            "navigation": {},
+                            "variantManagement": "None",
+                            "content": {
+                                "footer": {
+                                    "actions": {
+                                        "obj3": {
+                                            "press": "nwcollege.ext.controller.Footer.footer_meth",
+                                            "visible": true,
+                                            "enabled": true,
+                                            "text": "COE | @COPYRIGHT | 2024 | CONTACT US"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "extends": {
+            "extensions": {
+                "sap.ui.controllerExtensions": {
+                    "sap.fe.templates.ListReport.ListReportController": {
+                        "controllerName": "nwcollege.ext.controller.MainListcontroller"
+                    },
+                    "sap.fe.templates.ObjectPage.ObjectPageController#nwcollege::DepartmentObjectPage": {
+                        "controllerName": "nwcollege.ext.controller.Departmentobjectcontrol"
+                    }
+                }
+            }
+        }
+    },
+    "sap.fiori": {
+        "registrationIds": [],
+        "archeType": "transactional"
+    },
+    "sap.cloud": {
+        "public": true,
+        "service": "collegeteachapp"
+    }
+}

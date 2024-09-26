@@ -1,0 +1,183 @@
+_schema-version: "3.1"
+ID: NwCollege
+description: A simple CAP project.
+version: 1.0.0
+modules:
+- name: NwCollege-srv
+  type: nodejs
+  path: gen/srv
+  requires:
+  - name: NwCollege-db
+  - name: uaa_NwCollege
+  - name: NwCollege-destination-service
+  - name: destni
+  provides:
+  - name: srv-api
+    properties:
+      srv-url: ${default-url}
+  parameters:
+    buildpack: nodejs_buildpack
+    readiness-health-check-http-endpoint: /health
+    readiness-health-check-type: http
+  build-parameters:
+    builder: npm
+- name: NwCollege-app-content
+  type: com.sap.application.content
+  path: .
+  requires:
+  - name: NwCollege-repo-host
+    parameters:
+      content-target: true
+  build-parameters:
+    build-result: resources
+    requires:
+    - artifacts:
+      - nwcollege.zip
+      name: nwcollege
+      target-path: resources/
+    - artifacts:
+      - nwteacher.zip
+      name: nwteacher
+      target-path: resources/
+    - artifacts:
+      - nwcollegetaskworkflowuimodule.zip
+      name: nwcollegetaskworkflowuimodule
+      target-path: resources/
+- name: nwcollege
+  type: html5
+  path: app/nwcollege
+  build-parameters:
+    build-result: dist
+    builder: custom
+    commands:
+    - npm install
+    - npm run build:cf
+    supported-platforms: []
+- name: nwteacher
+  type: html5
+  path: app/nwteacher
+  build-parameters:
+    build-result: dist
+    builder: custom
+    commands:
+    - npm install
+    - npm run build:cf
+    supported-platforms: []
+- name: NwCollege-db-deployer
+  type: hdb
+  path: gen/db
+  requires:
+  - name: NwCollege-db
+  parameters:
+    buildpack: nodejs_buildpack
+- name: NwCollege-destination-content
+  type: com.sap.application.content
+  requires:
+  - name: NwCollege-destination-service
+    parameters:
+      content-target: true
+  - name: NwCollege-repo-host
+    parameters:
+      service-key:
+        name: NwCollege-repo-host-key
+  - name: uaa_NwCollege
+    parameters:
+      service-key:
+        name: uaa_NwCollege-key
+  parameters:
+    content:
+      subaccount:
+        destinations:
+        - Name: collegeteachapp_NwCollege_repo_host
+          ServiceInstanceName: NwCollege-html5-srv
+          ServiceKeyName: NwCollege-repo-host-key
+          sap.cloud.service: collegeteachapp
+        - Authentication: OAuth2UserTokenExchange
+          Name: collegeteachapp_uaa_NwCollege
+          ServiceInstanceName: NwCollege-xsuaa-service
+          ServiceKeyName: uaa_NwCollege-key
+          sap.cloud.service: collegeteachapp
+        existing_destinations_policy: ignore
+  build-parameters:
+    no-source: true
+- name: nwcollegetaskworkflowuimodule
+  type: html5
+  path: workflow-ui-module
+  build-parameters:
+    build-result: dist
+    builder: custom
+    commands:
+    - npm install
+    - npm run build:cf
+    supported-platforms: []
+resources:
+- name: NwCollege-repo-host
+  type: org.cloudfoundry.managed-service
+  parameters:
+    service: html5-apps-repo
+    service-name: NwCollege-html5-srv
+    service-plan: app-host
+- name: NwCollege-destination-service
+  type: org.cloudfoundry.managed-service
+  parameters:
+    config:
+      HTML5Runtime_enabled: true
+      init_data:
+        subaccount:
+          destinations:
+          - Authentication: NoAuthentication
+            Name: ui5
+            ProxyType: Internet
+            Type: HTTP
+            URL: https://ui5.sap.com
+          - Authentication: NoAuthentication
+            HTML5.DynamicDestination: true
+            HTML5.ForwardAuthToken: true
+            Name: NwCollege-srv-api
+            ProxyType: Internet
+            Type: HTTP
+            URL: ~{srv-api/srv-url}
+          existing_destinations_policy: update
+      version: 1.0.0
+    service: destination
+    service-name: NwCollege-destination-service
+    service-plan: lite
+  requires:
+  - name: srv-api
+- name: NwCollege-db
+  type: com.sap.xs.hdi-container
+  parameters:
+    service: hana
+    service-plan: hdi-shared
+- name: destni
+  type: org.cloudfoundry.managed-service
+  parameters:
+    config:
+      HTML5Runtime_enabled: false
+      init_data:
+        instance:
+          destinations:
+          - Authentication: NoAuthentication
+            Name: ui5
+            ProxyType: Internet
+            Type: HTTP
+            URL: https://ui5.sap.com
+          existing_destinations_policy: update
+    service: destination
+    service-plan: lite
+- name: uaa_NwCollege
+  type: org.cloudfoundry.managed-service
+  parameters:
+    path: ./xs-security.json
+    service: xsuaa
+    service-name: NwCollege-xsuaa-service
+    service-plan: application
+parameters:
+  deploy_mode: html5-repo
+  enable-parallel-deployments: true
+build-parameters:
+  before-all:
+  - builder: custom
+    commands:
+    - npm ci
+    - npx cds build --production

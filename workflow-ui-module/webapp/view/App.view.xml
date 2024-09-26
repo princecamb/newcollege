@@ -1,0 +1,161 @@
+<!-- <mvc:View controllerName="nwcollegetask.workflowuimodule.controller.App"
+    xmlns:html="http://www.w3.org/1999/xhtml"
+    xmlns:mvc="sap.ui.core.mvc" displayBlock="true"
+    xmlns="sap.m">
+    <App id="app">
+
+    </App>
+</mvc:View> -->
+
+
+<!-- <mvc:View controllerName="nwcollegetask.workflowuimodule.controller.App"
+    xmlns:html="http://www.w3.org/1999/xhtml"
+    xmlns:mvc="sap.ui.core.mvc" displayBlock="true"
+    xmlns:l="sap.ui.layout"
+    xmlns:f="sap.ui.layout.form"
+    xmlns:core="sap.ui.core"
+    xmlns:form="sap.ui.layout.form"
+    xmlns:smartForm="sap.ui.comp.smartform"
+    xmlns:smartField="sap.ui.comp.smartfield"
+    xmlns="sap.m">
+
+    <App id="app">
+        <Page id="scroll">
+            <content>
+                <form:SimpleForm id="request-information-form" editable="false" layout="ResponsiveGridLayout" singleContainerFullSize="false">
+                    <form:content>
+                        <core:Title id="teacher-info-heading" text="Teacher Information"/>
+                       
+                        
+                        <Label id="teacher-name-label" text="Name" labelFor="teacher-name-field"/>
+                        <Input id="teacher-name-field" value="{context>/Name}" editable="false"/>
+                        
+                        <Label id="teacher-phone-label" text="Phone Number" labelFor="teacher-phone-field"/>
+                        <Input id="teacher-phone-field" value="{context>/PhoneNumber}" editable="false"/>
+                        
+                        <Label id="teacher-email-label" text="Email" labelFor="teacher-email-field"/>
+                        <Input id="teacher-email-field" value="{context>/Email}" editable="false"/>
+                        
+                        <Label id="teacher-address-label" text="Address" labelFor="teacher-address-field"/>
+                        <Input id="teacher-address-field" value="{context>/Address}" editable="false"/>
+                        
+                        <Label id="teacher-age-label" text="Age" labelFor="teacher-age-field"/>
+                        <Input id="teacher-age-field" value="{context>/Age}" editable="false"/>
+                        
+                        <Label id="teacher-department-label" text="Department" labelFor="teacher-department-field"/>
+                        <Input id="teacher-department-field" value="{context>/Lect_dept_name}" editable="false"/>
+                        
+                        <Label id="teacher-dob-label" text="Date of Birth" labelFor="teacher-dob-field"/>
+                        <Input id="teacher-dob-field" value="{context>/DOB}" editable="false"/>
+                        
+                        <Label id="teacher-gender-label" text="Gender" labelFor="teacher-gender-field"/>
+                        <Input id="teacher-gender-field" value="{context>/gender}" editable="false"/>
+                    </form:content>
+                </form:SimpleForm>
+                
+                <FlexBox id="comment-wrapper" direction="Column" class="sapUiSmallMargin" width="auto">
+                    <CheckBox id="Ack" text="I acknowledge jack yu that I have reviewed the teacher's information" />
+                    <Label id="comment-label" text="Comment" />
+                    <TextArea id="comment-field" showExceededText="true" maxLength="1000" width="100%" height="120px" value="{context>/comment}"/>
+                </FlexBox>
+            </content>
+        </Page>
+    </App>
+</mvc:View> -->
+
+
+
+
+
+
+<mvc:View controllerName="nwcollegetask.workflowuimodule.controller.App"
+    xmlns:html="http://www.w3.org/1999/xhtml"
+xmlns:mvc="sap.ui.core.mvc" displayBlock="true"
+xmlns:l="sap.ui.layout"
+xmlns:f="sap.ui.layout.form"
+xmlns:core="sap.ui.core"
+xmlns:form="sap.ui.layout.form"
+xmlns:smartForm="sap.ui.comp.smartform"
+xmlns:smartField="sap.ui.comp.smartfield"
+xmlns:upload="sap.m.upload"
+xmlns:macros="sap.fe.macros"
+xmlns="sap.m">
+<App id="app">
+    <Page id = "scroll">
+        <content>
+        <form:SimpleForm id="request-information-form" editable="false" layout="ResponsiveGridLayout" singleContainerFullSize="false">
+            <form:content>
+                <core:Title id="vacation-timerange-heading" text="Teacher Approval Form"/>
+              <Label id="teacher-name-label" text="Name" labelFor="teacher-name-field"/>
+                        <Input id="teacher-name-field" value="{context>/Name}" editable="false"/>
+                        
+                        <Label id="teacher-phone-label" text="Phone Number" labelFor="teacher-phone-field"/>
+                        <Input id="teacher-phone-field" value="{context>/PhoneNumber}" editable="false"/>
+                        
+                        <Label id="teacher-email-label" text="Email" labelFor="teacher-email-field"/>
+                        <Input id="teacher-email-field" value="{context>/Email}" editable="false"/>
+                        
+                        <Label id="teacher-address-label" text="Address" labelFor="teacher-address-field"/>
+                        <Input id="teacher-address-field" value="{context>/Address}" editable="false"/>
+                        
+                        <Label id="teacher-age-label" text="Age" labelFor="teacher-age-field"/>
+                        <Input id="teacher-age-field" value="{context>/Age}" editable="false"/>
+                        
+                        <Label id="teacher-department-label" text="Department" labelFor="teacher-department-field"/>
+                        <Input id="teacher-department-field" value="{context>/Lect_dept_name}" editable="false"/>
+                        
+                        <Label id="teacher-dob-label" text="Date of Birth" labelFor="teacher-dob-field"/>
+                        <Input id="teacher-dob-field" value="{context>/DOB}" editable="false"/>
+                        
+                        <Label id="teacher-gender-label" text="Gender" labelFor="teacher-gender-field"/>
+                        <Input id="teacher-gender-field" value="{context>/gender}" editable="false"/>
+                <Label id="pdf-document-label" text="Attachments" labelFor="uploadSet"/>
+                <upload:UploadSet
+            id="uploadSet"
+            uploadEnabled="false"
+             items="{path: 'myModel>/Files', templateShareable: false}"
+             >
+             <upload:toolbar>
+            </upload:toolbar>
+            <upload:items>
+                <upload:UploadSetItem id="_IDGenUploadSetItem1"
+                    fileName="{myModel>fileName}"
+                    mediaType="{myModel>mediaType}"
+                    url="{myModel>url}"
+                    enabledEdit="false"
+                    enabledRemove="false"
+                    visibleEdit="false"
+                    visibleRemove='false'
+                    openPressed="onOpenPressed">
+                    
+                    <upload:attributes>
+                        <ObjectAttribute id="_IDGenObjectAttribute1"
+                            title="Uploaded By"
+                            text="{myModel>createdBy}"
+                            active="false"/>
+                        <ObjectAttribute id="_IDGenObjectAttribute2"
+                            title="Uploaded on"
+                            text="{myModel>createdAt}"
+                            active="false"/>
+                        <ObjectAttribute id="_IDGenObjectAttribute3"
+                            title="File Size"
+                            text="{myModel>size}"
+                            active="false"/>
+                    </upload:attributes>
+                </upload:UploadSetItem>
+            </upload:items>
+        </upload:UploadSet>
+            </form:content>
+        </form:SimpleForm>
+
+        <html:hr></html:hr>
+         <html:hr></html:hr>
+          <html:hr></html:hr>
+           <html:hr></html:hr>
+            <html:hr></html:hr>
+             <html:hr></html:hr>
+              <html:hr></html:hr>
+        </content>
+    </Page>
+</App>
+</mvc:View>

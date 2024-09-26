@@ -1,0 +1,233 @@
+{
+    "_version": "1.26.0",
+    "sap.app": {
+        "id": "nwcollegetask.workflowuimodule",
+        "type": "application",
+        "i18n": "i18n/i18n.properties",
+        "applicationVersion": {
+            "version": "0.0.1"
+        },
+        "title": "{{appTitle}}",
+        "description": "{{appDescription}}",
+        "resources": "resources.json",
+        "sourceTemplate": {
+            "id": "@sap/generator-fiori:basic",
+            "version": "1.8.4",
+            "toolsId": "59e477b1-2458-4f70-b820-45af24f839c7"
+        },
+        "dataSources": {
+            "mainService": {
+                "uri": "/sap/opu/odata/",
+                "type": "OData",
+                "settings": {
+                    "annotations": [],
+                    "localUri": "localService/metadata.xml",
+                    "odataVersion": "2.0"
+                }
+            }
+        }
+    },
+    "sap.ui": {
+        "technology": "UI5",
+        "icons": {
+            "icon": "",
+            "favIcon": "",
+            "phone": "",
+            "phone@2": "",
+            "tablet": "",
+            "tablet@2": ""
+        },
+        "deviceTypes": {
+            "desktop": true,
+            "tablet": true,
+            "phone": true
+        }
+    },
+    "sap.ui5": {
+        "flexEnabled": true,
+        "dependencies": {
+            "minUI5Version": "1.82.2",
+            "libs": {
+                "sap.m": {},
+                "sap.ui.core": {},
+                "sap.f": {},
+                "sap.suite.ui.generic.template": {},
+                "sap.ui.comp": {},
+                "sap.ui.generic.app": {},
+                "sap.ui.table": {},
+                "sap.ushell": {}
+            }
+        },
+        "contentDensities": {
+            "compact": true,
+            "cozy": true
+        },
+        "models": {
+            "i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "settings": {
+                    "bundleName": "nwcollegetask.workflowuimodule.i18n.i18n"
+                }
+            },
+            "": {
+                "dataSource": "mainService",
+                "preload": true,
+                "settings": {}
+            }
+        },
+        "resources": {
+            "css": [
+                {
+                    "uri": "css/style.css"
+                }
+            ]
+        },
+        "routing": {
+            "config": {
+                "routerClass": "sap.m.routing.Router",
+                "viewType": "XML",
+                "async": true,
+                "viewPath": "nwcollegetask.workflowuimodule.view",
+                "controlAggregation": "pages",
+                "controlId": "app",
+                "clearControlAggregation": false
+            },
+            "routes": [
+                {
+                    "name": "RouteMyTaskUI",
+                    "pattern": ":?query:",
+                    "target": [
+                        "TargetMyTaskUI"
+                    ]
+                }
+            ],
+            "targets": {
+                "TargetMyTaskUI": {
+                    "viewType": "XML",
+                    "transition": "slide",
+                    "clearControlAggregation": false,
+                    "viewId": "MyTaskUI",
+                    "viewName": "MyTaskUI"
+                }
+            }
+        },
+        "rootView": {
+            "viewName": "nwcollegetask.workflowuimodule.view.App",
+            "type": "XML",
+            "async": true,
+            "id": "App"
+        }
+    },
+    "sap.cloud": {
+        "public": true,
+        "service": "collegeteachapp"
+    }
+    ,
+    
+        "sap.bpa.task": {
+            "_version": "1.0.0",
+            "outcomes": [
+                {
+                    "id": "approve",
+                    "label": "Approve"
+                },
+                {
+                    "id": "reject",
+                    "label": "Reject"
+                }
+            ],
+            "inputs": {
+                "$schema": "http://json-schema.org/draft-07/schema",
+                "title": "input",
+                "type": "object",
+                "required": [
+                    "ttuuid",                   
+                    "Name",
+                    "PhoneNumber",
+                    "Email",
+                    "Address",
+                    "Age",
+                    "Lect_dept_name",
+                    "DOB",                    
+                    "gender"
+                
+                ],
+                "properties": {
+                    "ttuuid": {
+                        "type": "string",
+                        "title": "Teacher UUID",
+                        "description": "Unique Identifier for the Teacher"
+                    },
+                   
+                    "Name": {
+                        "type": "string",
+                        "title": "Name",
+                        "description": "Teacher's Name"
+                    },
+                    "PhoneNumber": {
+                        "type": "number",
+                        "title": "Phone Number",
+                        "description": "Teacher's Phone Number"
+                    },
+                    "Email": {
+                        "type": "string",
+                        "title": "Email",
+                        "description": "Teacher's Email"
+                    },
+                    "Address": {
+                        "type": "string",
+                        "title": "Address",
+                        "description": "Teacher's Address"
+                    },
+                    "Age": {
+                        "type": "number",
+                        "title": "Age",
+                        "description": "Teacher's Age",
+                        "minimum": 18,
+                        "maximum": 70
+                    },
+                    "Lect_dept_name": {
+                        "type": "string",
+                        "title": "Lect_dept_name",
+                        "description": "Name of the Department"
+                    },
+                    "DOB": {
+                        "type": "string",
+                        "title": "Date of Birth",
+                        "description": "Teacher's Date of Birth",
+                        "format": "date"
+                    },
+                   
+                    "gender": {
+                        "type": "string",
+                        "title": "Gender",
+                        "description": "Teacher's Gender"
+                    }
+                    ,
+                    "pdfDocument": {
+                    "type": "string",
+                    "title": "PDF Document",
+                    "description": "Link to the PDF document"
+                }
+                }
+            },
+            "outputs": {
+                "$schema": "http://json-schema.org/draft-07/schema",
+                "title": "output",
+                "type": "object",
+                "required": [
+                    "comment"
+                ],
+                "properties": {
+                    "comment": {
+                        "type": "string",
+                        "title": "Comment",
+                        "description": "Comment to the teacher"
+                    }
+                }
+            },
+            "category": "approval"
+        }
+    
+    
+}
